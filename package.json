@@ -1,0 +1,81 @@
+{
+  "name": "automately",
+  "version": "1.0.2",
+  "description": "Native system automation for node.js",
+  "main": "dist/index.js",
+  "guide": [
+    "1: Replace @nut-tree/libnut with automately-lib-manager",
+    "X"
+  ],
+  "scripts": {
+    "test": "npm run prepare && ./node_modules/mocha/bin/mocha test/ --recursive --timeout=10000",
+    "prepare": "node -e 'require(`prepare-package`)()'",
+    "prepare:watch": "nodemon -w ./src -e '*' --exec 'npm run prepare'"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itw-creative-works/automately.git"
+  },
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "keywords": [
+    "native",
+    "system",
+    "automation",
+    "testing",
+    "keyboard",
+    "mouse",
+    "process",
+    "memory",
+    "window",
+    "screen",
+    "monitor",
+    "display",
+    "timer",
+    "clock",
+    "clipboard"
+  ],
+  "author": "ITW Creative Works",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itw-creative-works/automately/issues"
+  },
+  "homepage": "https://itwcreativeworks.com",
+  "preparePackage": {
+    "input": "./src",
+    "output": "./dist",
+    "replace": {}
+  },
+  "dependencies": {
+    "automately-lib-manager": "^1.0.0",
+    "clipboardy": "2.3.0",
+    "itwcw-package-analytics": "^1.0.1",
+    "jimp": "0.16.2",
+    "node-abort-controller": "2.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "27.0.1",
+    "@types/node": "16.7.10",
+    "istanbul-merge": "1.1.1",
+    "jest": "27.1.0",
+    "nyc": "15.1.0",
+    "prepare-package": "^1.1.8",
+    "rimraf": "3.0.2",
+    "sneer": "1.0.1",
+    "ts-jest": "27.0.5",
+    "ts-node": "10.9.1",
+    "typedoc": "0.23.14",
+    "typescript": "4.8.3",
+    "version-bump-prompt": "6.1.0"
+  }
+}
