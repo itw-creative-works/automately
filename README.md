@@ -21,17 +21,16 @@
   <a href="https://itwcreativeworks.com">Site</a> | <a href="https://www.npmjs.com/package/automately">NPM Module</a> | <a href="https://github.com/itw-creative-works/automately">GitHub Repo</a>
   <br>
   <br>
-  <strong>automately</strong> is the official npm module of <a href="https://itwcreativeworks.com">AutoMately</a>, a free app for creating custom text snippets that you can access on all of your devices!
+  <strong>automately</strong> is the official npm module of <a href="https://itwcreativeworks.com">AutoMately</a>, a free module for automating mouse and keyboard inputs on Mac, Windows, and Linux.
 </p>
 
-## 🌐 AutoMately Works in Node AND browser environments
-Yes, this module works in both Node and browser environments, including compatibility with [Webpack](https://www.npmjs.com/package/webpack) and [Browserify](https://www.npmjs.com/package/browserify)!
-
 ## 🦄 Features
-* Getting proxy lists
+* Automate mouse movements
+* Automate mouse clicks
+* Automate keyboard inputs
 
-### 🔑 Getting an API key
-You can use so much of `automately` for free, but if you want to do some advanced stuff, you'll need an API key. You can get one by [signing up for a AutoMately account](https://itwcreativeworks.com/signup).
+<!-- ### 🔑 Getting an API key
+You can use so much of `automately` for free, but if you want to do some advanced stuff, you'll need an API key. You can get one by [signing up for a AutoMately account](https://itwcreativeworks.com/signup). -->
 
 ## 📦 Install AutoMately
 ### Option 1: Install via npm
@@ -39,40 +38,216 @@ Install with npm if you plan to use `automately` in a Node project or in the bro
 ```shell
 npm install automately
 ```
-If you plan to use `automately` in a browser environment, you will probably need to use [Webpack](https://www.npmjs.com/package/webpack), [Browserify](https://www.npmjs.com/package/browserify), or a similar service to compile it.
 
 ```js
-const automately = new (require('automately'))({
-  // Not required, but having one removes limits (get your key at https://itwcreativeworks.com).
-  apiKey: 'api_test_key'
-});
+const { keyboard, Key, mouse, Button, screen, Region } = require('automately');
 ```
 
-### Option 2: Install via CDN
-Install with CDN if you plan to use AutoMately only in a browser environment.
-```html
-<script src="https://cdn.jsdelivr.net/npm/automately@latest/dist/index.min.js"></script>
-<script type="text/javascript">
-  var automately = new AutoMately({
-    // Not required, but having one removes limits (get your key at https://itwcreativeworks.com).
-    apiKey: 'api_test_Key'
-  });
-</script>
-```
-
-### Option 3: Use without installation
-You can use `automately` in a variety of ways that require no installation, such as `curl` in terminal/shell. See the **Use without installation** section below.
-
-## Using AutoMately
+## ⚡️ Using AutoMately
 After you have followed the install step, you can start using `automately` to create custom text snippets that you can access on all of your devices
 
 For a more in-depth documentation of this library and the AutoMately service, please visit the official AutoMately website.
 
-## Use without installation
-### Use AutoMately with `curl`
-```shell
-# Standard
-curl -X POST https://api.itwcreativeworks.com
+### ⌨️ Keyboard Control
+#### Configuration
+- **autoDelayMs**: Configures the delay between keypresses.<br>
+  Example:
+  ```js
+  keyboard.config.autoDelayMs = 100;
+  ```
+
+#### `keyboard.type(...keysOrText);`
+Types given keys or strings.
+
+Example:
+```js
+await keyboard.type(Key.LeftSuper, Key.Space);
+await keyboard.type('calculator);
+```
+
+#### `keyboard.pressKey(...keys);`
+Presses and holds multiple keys.
+
+Example:
+```js
+await keyboard.pressKey(Key.LeftAlt, Key.F4);
+await keyboard.releaseKey(Key.LeftAlt, Key.F4);
+```
+
+#### `keyboard.releaseKey(...keys);`
+Releases multiple keys.
+
+Example:
+```js
+await keyboard.pressKey(Key.LeftAlt, Key.F4);
+await keyboard.releaseKey(Key.LeftAlt, Key.F4);
+```
+
+### 🖱 Mouse Control
+#### Configuration
+- **autoDelayMs**: Configures the delay between mouse clicks and/or scrolls.<br>
+  Example:
+  ```js
+  mouse.config.autoDelayMs = 100;
+  ```
+- **mouseSpeed**: Configures mouse movement speed in pixels per second.<br>
+  Example:
+  ```js
+  mouse.config.mouseSpeed = 1000;
+  ```
+
+#### `mouse.setPosition(point);`
+Moves the mouse cursor to a given position instantly.
+
+Example:
+```js
+await mouse.setPosition(new Point(500, 500));
+```
+
+#### `mouse.getPosition();`
+Returns a Promise resolving to the current cursor position.
+
+Example:
+```js
+const position = await mouse.getPosition();
+console.log(position); // Point { x: 500, y: 500 }
+```
+
+#### `mouse.move(path, movementFunction);`
+Moves the mouse cursor along a given path.
+
+Example:
+```js
+await mouse.move(straightTo(centerOf(await screen.find('image.png'))));
+```
+
+### 🖥 Screen Control
+#### Configuration
+- **confidence**: Specifies the required matching percentage for image searching.<br>
+  Example:
+  ```js
+  screen.config.confidence = 0.95;
+  ```
+- **autoHighlight**: Enables automated highlighting of image search results.<br>
+  Example:
+  ```js
+  screen.config.autoHighlight = true;
+  ```
+- **highlightDurationMs**: Configures the duration of highlight window display.<br>
+  Example:
+  ```js
+  screen.config.highlightDurationMs = 500;
+  ```
+- **highlightOpacity**: Configures the opacity of highlight windows.<br>
+  Example:
+  ```js
+  screen.config.highlightOpacity = 0.7;
+  ```
+- **resourceDirectory**: Configures the asset directory for image resources.<br>
+  Example:
+  ```js
+  screen.config.resourceDirectory = '/path/to/resources';
+  ```
+
+#### `screen.capture(filePath);`
+Captures a screenshot and stores it to the filesystem.
+
+Example:
+```js
+await screen.capture('/path/to/screenshot.png');
+```
+
+#### `screen.captureRegion(region, filePath);`
+Captures a screenshot of a specific region and stores it to the filesystem.
+
+Example:
+```js
+const region = new Region(0, 0, 100, 100);
+await screen.captureRegion(region, '/path/to/region_screenshot.png');
+```
+
+#### `screen.find(imageResource);`
+Finds a match for a given image on the screen.
+
+Example:
+```js
+await mouse.move(straightTo(centerOf(await screen.find('image.png'))));
+```
+
+#### `screen.findAll(imageResource);`
+Finds all matches for a given image on the screen.
+
+Example:
+```js
+const matches = await screen.findAll('image.png');
+for (const match of matches) {
+    await mouse.move(straightTo(centerOf(match)));
+}
+```
+
+#### `screen.highlight(region);`
+Displays an opaque window overlay for easier visual follow-up.
+
+Example:
+```js
+await screen.highlight(await screen.find('image.png'));
+```
+
+#### `screen.on(query, callback);`
+Registers callbacks executed upon finding a match for a template image.
+
+Example:
+```js
+const colorQuery = pixelWithColor(new RGBA(0, 0, 0, 255));
+const secondQuery = pixelWithColor(new RGBA(43, 45, 48, 255));
+
+screen.on(colorQuery, async (matchResult) => {
+    await mouse.move(straightTo(matchResult.location));
+});
+
+screen.on(secondQuery, async (matchResult) => {
+    console.log('Second query found');
+});
+
+await screen.find(colorQuery); // Triggers callback
+await mouse.move(straightTo(new Point(100, 100)));
+await screen.find(secondQuery); // Triggers callback
+await screen.find(colorQuery); // Triggers callback again
+```
+
+#### `screen.waitFor(imageResource, timeoutMs, intervalMs);`
+Waits for a match for a given image on the screen within a specified timeout.
+
+Example:
+```js
+await mouse.move(straightTo(centerOf(await screen.waitFor('image.png', 3000, 500))));
+```
+
+#### `screen.colorAt(point);`
+Returns RGBA color information at a specified pixel location.
+
+Example:
+```js
+const color = await screen.colorAt(new Point(0, 0));
+console.log(color); // RGBA { R: 0, G: 0, B: 0, A: 255 }
+```
+
+#### `screen.width();`
+Returns the main screen's width in pixels.
+
+Example:
+```js
+const width = await screen.width();
+console.log(width); // e.g. 1920
+```
+
+#### `screen.height();`
+Returns the main screen's height in pixels.
+
+Example:
+```js
+const height = await screen.height();
+console.log(height); // e.g. 1080
 ```
 
 ## 📝 What Can AutoMately do?

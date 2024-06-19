@@ -1,6 +1,6 @@
 {
   "name": "automately",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Native system automation for node.js",
   "main": "dist/index.js",
   "guide": [
@@ -9,11 +9,11 @@
   ],
   "scripts": {
     "test": "npm run prepare && ./node_modules/mocha/bin/mocha test/ --recursive --timeout=10000",
-    "prepare": "node -e 'require(`prepare-package`)()'",
+    "prepare": "node -e \"require('prepare-package')()\"",
     "prepare:watch": "nodemon -w ./src -e '*' --exec 'npm run prepare'"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16"
   },
   "repository": {
     "type": "git",
@@ -57,9 +57,9 @@
     "replace": {}
   },
   "dependencies": {
-    "automately-lib-manager": "^1.0.0",
+    "automately-lib-manager": "^1.0.1",
     "clipboardy": "2.3.0",
-    "itwcw-package-analytics": "^1.0.1",
+    "itwcw-package-analytics": "^1.0.4",
     "jimp": "0.16.2",
     "node-abort-controller": "2.0.0"
   },
@@ -69,7 +69,7 @@
     "istanbul-merge": "1.1.1",
     "jest": "27.1.0",
     "nyc": "15.1.0",
-    "prepare-package": "^1.1.8",
+    "prepare-package": "^1.1.12",
     "rimraf": "3.0.2",
     "sneer": "1.0.1",
     "ts-jest": "27.0.5",
