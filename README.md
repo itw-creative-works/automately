@@ -44,7 +44,7 @@ const { keyboard, Key, mouse, Button, screen, Region } = require('automately');
 ```
 
 ## ⚡️ Using AutoMately
-After you have followed the install step, you can start using `automately` to create custom text snippets that you can access on all of your devices
+After you have followed the install step, you can start using `automately` to automate mouse and keyboard inputs.
 
 For a more in-depth documentation of this library and the AutoMately service, please visit the official AutoMately website.
 
